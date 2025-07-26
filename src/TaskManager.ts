@@ -42,8 +42,12 @@ export class TaskManager {
         return newTask;
     }
 
-    listTasks(): Task[] {
-        return this.tasks; 
+    listTasks(status?: Status): Task[] {
+        if (status) {
+            const filteredTasks = this.tasks.filter(task => task.status === status);
+            return filteredTasks;
+        }
+        return this.tasks;
     }
 
     changeTaskStatus(id: number, status: Status): boolean {
@@ -65,5 +69,10 @@ export class TaskManager {
             return true;
         }
         return false;
+    }
+
+    deleteAllTasks(): void {
+        this.tasks = [];
+        this.saveTasks();
     }
 }

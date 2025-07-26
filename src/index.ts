@@ -1,10 +1,27 @@
 import { takeCoverage } from "v8";
 import { TaskManager } from "./TaskManager";
 import { Status } from "./models/Task";
+import { profileEnd } from "console";
+import { stat } from "fs";
 
 const taskManager = new TaskManager();
 const args = process.argv.slice(2); // slices just user inputed arguments, removing Node and script paths (indexes 0 & 1)
 const command = args[0]
+
+function toStatus(value: string): Status | undefined {
+    switch (value.toUpperCase()) {
+        case "PENDING":
+            return Status.Pending;
+        case "INPROGRESS":
+        case "IN PROGRESS":
+        case "IN-PROGRESS":
+            return Status.InProgress;
+        case "DONE":
+            return Status.Done;
+        default:
+            return undefined;
+    }
+}
 
 switch (command) {
     case "add":
@@ -19,7 +36,18 @@ switch (command) {
         break;
 
     case "list":
-        const tasks = taskManager.listTasks();
+        const target = args[1];
+        var tasks;
+        if (!target) {
+            tasks = taskManager.listTasks();
+        } else {
+            const status = toStatus(target);
+            if (!status) {
+                console.error("Invalid status given. Please specify either 'Pending', 'In Progress' or 'Done'.");
+                process.exit(1);
+            }
+            tasks = taskManager.listTasks(status);
+        }
         if (tasks.length === 0) {
             console.log("No tasks found.");
         } else {
@@ -72,19 +100,30 @@ switch (command) {
     }
 
     case "delete": {
-        const taskId = parseInt(args[1], 10);
+        const target = args[1];
 
-        if (isNaN(taskId)) {
-            console.error("Invalid ID. Please enter a number ID.");
+        if (!target) {
+            console.error("Please provide a task ID or 'all'.");
             process.exit(1);
         }
 
-        if (taskManager.deleteTask(taskId)) {
-            console.log(`Task ${taskId} permanently deleted.`);
+        if (target.toUpperCase() === "ALL") {
+            taskManager.deleteAllTasks();
+            console.log("All tasks permanently deleted.")
         } else {
-            console.error("Failed to delete task. Ensure task ID is correct.");
-        }
+            const taskId = parseInt(target, 10);
 
+            if (isNaN(taskId)) {
+                console.error("Invalid parameter. Please enter a number ID, or 'all'.");
+                process.exit(1);
+            }
+    
+            if (taskManager.deleteTask(taskId)) {
+                console.log(`Task ${taskId} permanently deleted.`);
+            } else {
+                console.error("Failed to delete task. Ensure task ID is correct.");
+            }
+        }
         break;
     }
 }
