@@ -82,8 +82,9 @@ Create a command-line tool called ToDoTool that allows users to manage a list of
 
 ## Tech Stack
 
-- Node.js
-- TypeScript
+- **Node.js** – Runtime environment for executing JavaScript on the server
+- **TypeScript** – Strongly-typed superset of JavaScript
+- **Vitest** – Unit testing framework for TypeScript/JavaScript
 
 ---
 
@@ -111,6 +112,16 @@ Use `ts-node` to run the main entry point (usually `index.ts`):
 
 ```sh
 npx ts-node src/index.ts <command> [options]
+```
+
+---
+
+### 3. **Testing**
+
+Use `vitest` to run the test files located under `tests/`:
+
+```sh
+npx vitest
 ```
 
 ---
