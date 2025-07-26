@@ -3,12 +3,13 @@
     "target": "ES2020",                             // Modern JS features
     "module": "commonjs",                           // Works with Node.js (non-ESM)
     "outDir": "dist",                               // Compiled JS output location
-    "rootDir": "src",                               // Source code location
+    "rootDir": ".",                                 // Source code location
     "strict": true,                                 // Enable all strict type-checking
     "esModuleInterop": true,                        // Allow default imports from CommonJS
     "forceConsistentCasingInFileNames": true,       // Prevent case mismatch issues
-    "skipLibCheck": true                            // Skip type checking of node_modules
+    "skipLibCheck": true,                           // Skip type checking of node_modules
+    "types": ["vitest"],                            // Testing module
   },
-  "include": ["src"],
+  "include": ["src", "tests"],
   "exclude": ["node_modules", "dist"]
 }

@@ -1,8 +1,5 @@
-import { takeCoverage } from "v8";
 import { TaskManager } from "./TaskManager";
 import { Status } from "./models/Task";
-import { profileEnd } from "console";
-import { stat } from "fs";
 
 const taskManager = new TaskManager();
 const args = process.argv.slice(2); // slices just user inputed arguments, removing Node and script paths (indexes 0 & 1)
