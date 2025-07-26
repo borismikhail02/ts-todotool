@@ -62,39 +62,23 @@ switch (command) {
 
     case "change-status": {
         const taskId = parseInt(args[1], 10);
-        const newStatus = args[2];
+        const statusValue = args[2];
 
         if (isNaN(taskId)) {
             console.error("Invalid ID. Please enter a number ID.");
             process.exit(1);
         }
 
-        switch (newStatus.toUpperCase()) {
-            case "PENDING":
-                if (taskManager.changeTaskStatus(taskId, Status.Pending)) {
-                    console.log(`Task ${taskId} status changed to Pending.`);
-                } else {
-                    console.error("Failed to change task status. Ensure task ID is correct.");
-                }
-                break;
+        const status = toStatus(statusValue);
+        if (!status) {
+            console.error("Invalid status given. Please specify either 'Pending', 'In Progress' or 'Done'.");
+            process.exit(1);
+        }
 
-            case "IN PROGRESS": 
-            case "IN-PROGRESS":
-            case "INPROGRESS":
-                if (taskManager.changeTaskStatus(taskId, Status.InProgress)) {
-                    console.log(`Task ${taskId} status changed to In Progress.`);
-                } else {
-                    console.error("Failed to change task status. Ensure task ID is correct.");
-                }
-                break;
-
-            case "DONE":
-                if (taskManager.changeTaskStatus(taskId, Status.Done)) {
-                    console.log(`Task ${taskId} status changed to Done.`);
-                } else {
-                    console.error("Failed to change task status. Ensure task ID is correct.");
-                }
-                break;
+        if (taskManager.changeTaskStatus(taskId, status)) {
+            console.log(`Task ${taskId} status changed to ${status.toString()}`);
+        } else {
+            console.error(`Failed to change task status. Ensure task ID is correct.`);
         }
         break;
     }
