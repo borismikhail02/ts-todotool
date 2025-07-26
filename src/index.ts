@@ -24,6 +24,41 @@ function toStatus(value: string): Status | undefined {
 }
 
 switch (command) {
+    case "help":
+        console.log(`
+            ToDoTool CLI - Command Reference
+            
+            0. Help
+               Command: todotool help
+            ➤  Shows this help message
+
+            1. Add a Task
+               Command: todotool add "Task description"
+            ➤  Adds a new task with default status 'Pending'
+
+            2. List All Tasks
+               Command: todotool list
+            ➤  Shows all tasks with ID, description, status, and creation date
+
+            3. List Tasks by Status
+               Command: todotool list <status>
+            ➤  Filters tasks by status: Pending, In Progress, or Done
+
+            4. Change Task Status
+               Command: todotool change-status <task_id> <status>
+            ➤  Updates a task’s status (Pending | In Progress | Done)
+
+            5. Delete a Task
+               Command: todotool delete <task_id>
+            ➤  Permanently removes the specified task
+
+            6. Delete All Tasks
+               Command: todotool delete all
+            ➤  Permanently removes all tasks
+
+        `);
+        break;
+
     case "add":
         const description = args[1];
         if (!description) {
@@ -110,4 +145,7 @@ switch (command) {
         }
         break;
     }
+
+    default:
+        console.error("Invalid command. Use the 'help' command to display available commands.");
 }

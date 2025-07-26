@@ -14,6 +14,10 @@ Create a command-line tool called ToDoTool that allows users to manage a list of
 
 ### Core Features
 
+0. **Help**
+   - **Command:** `todotool help`
+   - Displays a full list of available commands
+
 1. **Add a Task**
    - **Command:** `todotool add "Task description"`
    - Adds a new task containing:
@@ -29,13 +33,25 @@ Create a command-line tool called ToDoTool that allows users to manage a list of
      - Status (`Pending` or `In Progress` or `Done`)
      - Creation date (format: `YYYY-MM-DD HH:mm`)
 
-3. **Change Task Status**
+3. **List Tasks by Status**
+   - **Command:** `todotool list <status>`
+   - Outputs a list of all tasks matching given status displaying:
+     - ID
+     - Description
+     - Status (`Pending` or `In Progress` or `Done`)
+     - Creation date (format: `YYYY-MM-DD HH:mm`)
+
+4. **Change Task Status**
    - **Command:** `todotool change-status <task_id> <status>`
    - Changes the given task’s status to the updated status
 
-4. **Delete a Task**
+5. **Delete a Task**
    - **Command:** `todotool delete <task_id>`
    - Permanently removes the given task
+  
+6. **Delete a Task**
+   - **Command:** `todotool delete all`
+   - Permanently removes all task
 
 ---
 
@@ -108,12 +124,20 @@ $ todotool add "Buy milk"
 $ todotool list
   Tasks:
   [1] [Pending] Buy milk — 2025-07-25 16:21
+  [2] [Done] Write email — 2025-07-27 13:11
+
+$ todotool list "done"
+  Tasks:
+  [2] [Done] Write email — 2025-07-27 13:11
 
 $ todotool change-status 1 "done"
   Task 1 status changed to Done.
 
 $ todotool delete 1
   Task 1 permanently deleted.
+
+$ todotool delete all
+  All tasks permanently deleted.
 ```
 
 ---
